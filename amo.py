@@ -16,7 +16,8 @@ class AmoClient:
         self.headers = {"Authorization": f"Bearer {token}"}
 
     async def _get(self, path: str, params: dict = None) -> dict:
-        async with aiohttp.ClientSession() as session:
+        timeout = aiohttp.ClientTimeout(total=15)
+        async with aiohttp.ClientSession(timeout=timeout) as session:
             async with session.get(
                 f"{self.base}{path}",
                 headers=self.headers,

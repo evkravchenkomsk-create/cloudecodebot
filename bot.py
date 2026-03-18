@@ -86,11 +86,11 @@ def kb_select_projects(user_id: int, selected: list = None):
         check = "✅" if key in selected else "⬜"
         rows.append([InlineKeyboardButton(
             text=f"{check} {cfg['emoji']} {cfg['name']}",
-            callback_data=f"toggleproj_{user_id}_{key}_{'|'.join(selected)}"
+            callback_data=f"tproj|{user_id}|{key}|{'|'.join(selected)}"
         )])
     rows.append([InlineKeyboardButton(
         text="💾 Сохранить и одобрить",
-        callback_data=f"saveapprove_{user_id}_{'|'.join(selected)}"
+        callback_data=f"svappr|{user_id}|{'|'.join(selected)}"
     )])
     return InlineKeyboardMarkup(inline_keyboard=rows)
 
@@ -222,23 +222,21 @@ async def cb_approve(cb: CallbackQuery):
     await cb.message.edit_text(
         f"✅ <b>Выбор проектов для {user['full_name']}</b>\n\n"
         f"Отметьте проекты к которым дать доступ:",
-        reply_markup=kb_select_projects(user_id, [])
+        reply_markup=kb_select_projects(user_id, list(PROJECTS.keys()))
     )
 
 
-@router.callback_query(F.data.startswith("toggleproj_"))
+@router.callback_query(F.data.startswith("tproj|"))
 async def cb_toggle_project(cb: CallbackQuery):
-    parts = cb.data.split("_", 3)
+    parts = cb.data.split("|")
     user_id = int(parts[1])
     project_key = parts[2]
-    current = parts[3].split("|") if parts[3] else []
+    current = [p for p in parts[3:] if p]
 
     if project_key in current:
         current.remove(project_key)
     else:
         current.append(project_key)
-
-    current = [p for p in current if p]
 
     user = db.get_user(user_id)
     await cb.message.edit_text(
@@ -249,11 +247,11 @@ async def cb_toggle_project(cb: CallbackQuery):
     )
 
 
-@router.callback_query(F.data.startswith("saveapprove_"))
+@router.callback_query(F.data.startswith("svappr|"))
 async def cb_save_approve(cb: CallbackQuery, bot: Bot):
-    parts = cb.data.split("_", 2)
+    parts = cb.data.split("|")
     user_id = int(parts[1])
-    projects = [p for p in parts[2].split("|") if p] if parts[2] else []
+    projects = [p for p in parts[2:] if p]
 
     if not projects:
         await cb.answer("Выберите хотя бы один проект", show_alert=True)
