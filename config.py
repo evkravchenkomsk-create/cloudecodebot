@@ -36,9 +36,9 @@ PROJECTS = {
     "a_farm": {
         "name": "А-Фарм",
         "emoji": "🏥",
-        "amo_domain": os.getenv("AMO_DOMAIN_AFARM", "bariatriakg1.amocrm.ru"),
-        "amo_token": os.getenv(
-            "AMO_TOKEN_AFARM",
+        "amo_domain": os.getenv("AMO_DOMAIN_AFARM") or "bariatriakg1.amocrm.ru",
+        "amo_token": (
+            os.getenv("AMO_TOKEN_AFARM") or
             "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6ImJkNzVkZjkzNDhhOTc3OGIxMWIwZmIzYTA1ZTU3ZTQyYTJmMWFjNTc3M2NlMmJjMmMyNDM2MzFkNzBjZGRmZjMxY2IzN2RmYWFmNDJhODZmIn0.eyJhdWQiOiJkOTQ0YTc3Yy02ZTU0LTQ4NDYtOTY0ZS1iYzBjZDMzZDlmN2EiLCJqdGkiOiJiZDc1ZGY5MzQ4YTk3NzhiMTFiMGZiM2EwNWU1N2U0MmEyZjFhYzU3NzNjZTJiYzJjMjQzNjMxZDcwY2RkZmYzMWNiMzdkZmFhZjQyYTg2ZiIsImlhdCI6MTc3MzgxNzkwNCwibmJmIjoxNzczODE3OTA0LCJleHAiOjE4MDY1Mzc2MDAsInN1YiI6IjEwMTk2NzE0IiwiZ3JhbnRfdHlwZSI6IiIsImFjY291bnRfaWQiOjMxMzQzMDU4LCJiYXNlX2RvbWFpbiI6ImFtb2NybS5ydSIsInZlcnNpb24iOjIsInNjb3BlcyI6WyJwdXNoX25vdGlmaWNhdGlvbnMiLCJmaWxlcyIsImNybSIsImZpbGVzX2RlbGV0ZSIsIm5vdGlmaWNhdGlvbnMiXSwiaGFzaF91dWlkIjoiZGJkOTQ4NjctNTlkNS00YTUwLTk3YjItODZiZTE0ZWI3ZDE1IiwiYXBpX2RvbWFpbiI6ImFwaS1iLmFtb2NybS5ydSJ9.jHh0eETtPtIHU84DENfG9Y5oXS8LvJC_2tZsRo__spRsK65SGDtsYHgjPZ-vt89GdkWuCqH24Z5xBKuT6bBFnDV6ftWJz4MM2IwCaCR6gh7PeBFbAmDQBnwxN4w_z-v6uWIr7MrpDABduCEyALVglMCwh4R2LVjPUiL6bVL2zIGpfSKOJ_ks47i6YBIoghxiuXuLnz0XOJK6LAXr13vzrOIslu_ec0BQ06-skXdYd5AZT9EoAM79pMIDlarS_m7PGMP2bJaEC14NZMEq3smNk_EFK9u2Op_zcEKg1olfnuINeFKyTqykwjt9rVR0XYxIl1-aruxy2cd3I7k8bNwDRQ"
         ),
         "pipeline_id": 10599806,
