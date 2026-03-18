@@ -30,12 +30,14 @@ class AmoClient:
         data = await self._get("/leads", p)
         return data.get("_embedded", {}).get("leads", [])
 
-    async def get_all_leads(self, created_from: Optional[int] = None) -> list:
+    async def get_all_leads(self, created_from: Optional[int] = None, pipeline_id: Optional[int] = None) -> list:
         leads = []
         page = 1
         params = {}
         if created_from:
             params["filter[created_at][from]"] = created_from
+        if pipeline_id:
+            params["filter[pipeline_id]"] = pipeline_id
         while True:
             batch = await self.get_leads_page(page, params=params)
             if not batch:
@@ -135,7 +137,8 @@ async def get_project_report(project_cfg: dict, days: int = 1) -> str:
 
     try:
         client = AmoClient(domain, token)
-        leads = await client.get_all_leads(created_from=from_ts)
+        pipeline_id = project_cfg.get("pipeline_id")
+        leads = await client.get_all_leads(created_from=from_ts, pipeline_id=pipeline_id)
         return build_report(leads, project_cfg, label)
     except Exception as e:
         return f"{project_cfg['emoji']} <b>{project_cfg['name']}</b>\n❌ Ошибка: {e}"
